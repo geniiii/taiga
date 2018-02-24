@@ -25,19 +25,14 @@ class Owner:
 
     @commands.command(pass_context=True)
     async def say(self, ctx, *, mess: str):
-        """Says stuff in the chat."""
-        if ctx.message.author.id == self.bot.owner_id:
-            await ctx.send(mess)
-        else:
-            await ctx.send("You aren't the bot owner.")
+        """says stuff in the chat"""
+        await ctx.send(mess)
 
     @commands.command(pass_context=True)
     async def saytts(self, ctx, *, mess: str):
         """Says stuff in the chat. (TTS)"""
-        if ctx.message.author.id == self.bot.owner_id:
-            await ctx.send(mess, tts=True)
-        else:
-            await ctx.send("You aren't the bot owner.")
+        await ctx.send(mess,
+                       tts=True)
 
 
 def setup(bot):
