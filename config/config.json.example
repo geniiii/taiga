@@ -1,0 +1,17 @@
+{
+    "token": "bot-token",
+
+    "description": "idk",
+
+    "prefix": "t!",
+
+    "version": "0.10-rc",
+
+    "game": "{}help | i'm in {} servers",
+
+	"owner_id": ur-id,
+
+    "pm_help": "false",
+
+    "log": "taiga.log"
+}

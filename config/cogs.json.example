@@ -1,0 +1,6 @@
+[
+    "cogs.Owner", "cogs.Info", "cogs.UrbanDictionary",
+    "cogs.ServerHub", "cogs.OnJoin", "cogs.Fun",
+    "cogs.OnStream", "cogs.Announcment",
+    "cogs.Anime", "cogs.Moderation", "cogs.Moderation_Helper"
+]
