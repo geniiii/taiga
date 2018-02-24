@@ -157,6 +157,19 @@ def taiga():  # the bot's function
             msg = "```Failed to reload extension {}\n{}```".format(cog, exc)
             await ctx.send(msg)
 
+    @bot.command(hidden=True)  # reloads a cog
+    @commands.is_owner()
+    async def reload_all(ctx):
+        """reloads all cogs"""
+        for cog in cogs:
+            try:
+                bot.unload_extension(cog)
+                bot.load_extension(cog)
+            except Exception as thing:
+                exc = "{}: {}".format(type(thing).__name__, thing)
+                msg = "```Failed to reload extension {}\n{}```".format(cog, exc)
+                await ctx.send(msg)
+
     bot.run(token)
 
 
