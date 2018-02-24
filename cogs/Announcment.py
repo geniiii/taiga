@@ -24,12 +24,12 @@ class Announcment:
         LOGGER.info('{0.command} is done...'.format(ctx))
 
     @commands.command(hidden=True)
+    @commands.is_owner()
     async def announce(self, ctx, *, mess: str):
-        if ctx.message.author.id == self.bot.owner_id:
-            guilds = self.bot.guilds
-            for guild in guilds:
-                channel = guild.default_channel
-                await channel.send(mess)
+        guilds = self.bot.guilds
+        for guild in guilds:
+            channel = guild.default_channel
+            await channel.send(mess)
 
 
 def setup(bot):

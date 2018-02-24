@@ -1,4 +1,3 @@
-"""ok"""
 import logging
 from discord.ext import commands
 
@@ -15,7 +14,7 @@ LOGGER.addHandler(LOGGER_HANDLER)
 
 
 class Owner:
-    """owner command!!!"""
+    """owner commands!!!"""
 
     def __init__(self, bot):
         self.bot = bot
@@ -23,12 +22,14 @@ class Owner:
     async def __after_invoke(self, ctx):
         LOGGER.info('{0.command} is done...'.format(ctx))
 
-    @commands.command(pass_context=True)
+    @commands.is_owner()
+    @commands.command()
     async def say(self, ctx, *, mess: str):
         """says stuff in the chat"""
         await ctx.send(mess)
 
-    @commands.command(pass_context=True)
+    @commands.is_owner()
+    @commands.command()
     async def saytts(self, ctx, *, mess: str):
         """Says stuff in the chat. (TTS)"""
         await ctx.send(mess,

@@ -29,7 +29,7 @@ class Anime:
     def __init__(self, bot):
         self.bot = bot
         self.thingy = os.path.dirname('__file__')
-        self.config = os.path.join(self.thingy, "config/anime.json")
+        self.config = os.path.join(self.thingy, "../config/anime.json")
         self.url = "https://anilist.co/api/auth/access_token"
         self.token = ""
         self.refresh_time = 0

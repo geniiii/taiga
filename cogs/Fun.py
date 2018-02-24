@@ -46,7 +46,7 @@ class Fun:
                     message = message + "    "
         await ctx.send(message)
 
-    @commands.command(pass_context=True)
+    @commands.command()
     async def decode(self, ctx, base: str, *, msg: str):
         """decodes stuff in base64, base32, etc..."""
         if base == "base64":

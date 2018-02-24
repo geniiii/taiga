@@ -20,7 +20,7 @@ LOGGER_HANDLER.setFormatter(logging.Formatter(
 LOGGER.addHandler(LOGGER_HANDLER)
 
 thingy = os.path.dirname(os.path.abspath(__file__))
-config = os.path.join(thingy, "config/cleverbot.json")
+config = os.path.join(thingy, "../config/cleverbot.json")
 
 with open(config) as file:
     data = json.load(file)
