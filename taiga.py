@@ -26,7 +26,7 @@ def taiga():  # the bot's function
     prefix = data['prefix']
     description = data['description']
     token = data['token']
-    owner = int(data['owner_id'])
+    owner = int(data['owner_id']) # making sure it's an int even if someone makes it a string
 
     version = data['version']
     log_name = data['log']
@@ -47,7 +47,7 @@ def taiga():  # the bot's function
         description=description,
         owner_id=owner)
 
-    if pm_help == 'true' or pm_help == 'True':  # pm help checks
+    if pm_help.lower() == 'true':  # pm help checks
         bot.pm_help = True
 
     @bot.event
