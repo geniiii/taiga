@@ -5,9 +5,10 @@ import logging
 import datetime
 
 import discord
-from discord import Forbidden
+from discord import Forbidden, ConnectionClosed
 from discord.ext import commands
-from discord.ext.commands import CommandOnCooldown, CommandNotFound
+from discord.opus import OpusError, OpusNotLoaded
+from discord.ext.commands import CommandOnCooldown, CommandNotFound, NotOwner
 
 # pylint: disable=W0703
 # pylint: disable=W1202
@@ -26,7 +27,8 @@ def taiga():  # the bot's function
     prefix = data['prefix']
     description = data['description']
     token = data['token']
-    owner = int(data['owner_id']) # making sure it's an int even if someone makes it a string
+    # making sure it's an int even if someone makes it a string
+    owner = int(data['owner_id'])
 
     version = data['version']
     log_name = data['log']
@@ -50,7 +52,7 @@ def taiga():  # the bot's function
     if pm_help.lower() == 'true':  # pm help checks
         bot.pm_help = True
 
-    @bot.event
+    @bot.async_event
     async def on_ready():
         """does stuff when the bot is ready"""  # pretty much
         servers = len(bot.guilds)
@@ -65,19 +67,34 @@ def taiga():  # the bot's function
         print("Description: {}".format(description))
         print("Owner ID: {}".format(str(owner)))
 
-    # error stuff
+    async def prlog(msg, etype):
+        print(msg)
+        if etype == "error":
+            taiga_log.error(msg)
+        elif etype == "warning":
+            taiga_log.warning(msg)
+        elif etype == "info":
+            taiga_log.info(msg)
+
     @bot.async_event
     async def on_command_error(ctx, error):
-        """does stuff when a command throws an error"""
         channel = ctx.message.channel
-        if isinstance(error, CommandOnCooldown):  # cooldown message
-            await channel.send("The command {.command} is on cooldown, {}. Wait {:.2f} seconds to use it again.".format(ctx,
+        if isinstance(error, CommandOnCooldown):
+            await channel.send("the command {.command} is on cooldown, {}. wait {:.2f} seconds to use it again.".format(ctx,
                                                                                                                         ctx.message.author.name,
                                                                                                                         error.retry_after))
-        elif isinstance(error, CommandNotFound):  # command not found message
-            await channel.send("Command not found.")
+        elif isinstance(error, CommandNotFound):
+            await channel.send("command not found.")
+        elif isinstance(error, NotOwner):
+            await channel.send("hey! you're not the bot's owner.")
+        elif isinstance(error, OpusError):
+            await prlog("libopus error: {}".format(error), "error")
+        elif isinstance(error, OpusNotLoaded):
+            await prlog("libopus isn't loaded: {}".format(error), "error")
+        elif isinstance(error, ConnectionClosed):
+            await prlog("connection closed? possibly internet connection issue. reason: {}\ncode: {}\n shard ID: {}".format(error.reason, error.code, error.shard_id), "error")
         elif isinstance(error, Forbidden):
-            await channel.send("I have no permissions.")
+            await channel.send("i have no permissions to do that")
 
     with open(cogs_json) as cogs_list:
         cogs = json.load(cogs_list)
