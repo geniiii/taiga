@@ -56,14 +56,14 @@ def taiga():  # the bot's function
     async def on_ready():
         """does stuff when the bot is ready"""  # pretty much
         servers = len(bot.guilds)
-        game = discord.Game(name=data['game'].format(
+        activity = discord.Game(name=data['game'].format(
             bot.command_prefix, str(servers)))
-        await bot.change_presence(game=game)  # changes the game
+        await bot.change_presence(activity=activity)  # changes the activity
         print("Username: {}".format(bot.user.name))
         print("ID: {}".format(str(bot.user.id)))
         print("Prefix: {}".format(bot.command_prefix))
         print("Version: {}".format(version))
-        print("Game: {}".format(game))
+        print("Game: {}".format(activity))
         print("Description: {}".format(description))
         print("Owner ID: {}".format(str(owner)))
 
